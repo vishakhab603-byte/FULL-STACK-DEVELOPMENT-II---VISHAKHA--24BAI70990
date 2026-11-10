@@ -6,8 +6,8 @@ Five independent full-stack learning projects, Experiments 06–10. Experiments 
 |---|---|---|---|
 | 06 | [Experiment 6](<UNIT 2/EXPERIMENT 6/README.md>) | Pagination, fetch joins, cache, native SQL | ZIP instructions |
 | 07 | [Experiment 7](<UNIT 2/EXPERIMENT 7/README.md>) | JWT/RBAC/AES plus secure, optimized read APIs | User approved both numbered sources |
-| 08 | [Experiment 8](<UNIT 3/EXPERIMENT 8/README.md>) | Kafka scheduled publishing, retries, DLQ, idempotency | ZIP instructions |
-| 09 | [Experiment 9](<UNIT 3/EXPERIMENT 9/README.md>) | CI/CD, automated tests, containers, canary | ZIP instructions |
+| 08 | [Experiment 8](<UNIT 3/EXPERIMENT 08/README.md>) | Kafka scheduled publishing, retries, DLQ, idempotency | ZIP instructions |
+| 09 | [Experiment 9](<UNIT 3/EXPERIMENT 09/README.md>) | CI/CD, automated tests, containers, canary | ZIP instructions |
 | 10 | [Experiment 10](<UNIT 3/EXPERIMENT 10/README.md>) | Social publishing calendar, scheduling, analytics | Provisional prior-thread description; PDF scan has no text layer and no ZIP |
 
 ## Independent design directions
@@ -16,8 +16,8 @@ Each application has its own product philosophy, typography, visual system, moti
 
 - [Experiment 6 precision observatory](<UNIT 2/EXPERIMENT 6/DESIGN-BRIEF.md>)
 - [Experiment 7 identity bastion](<UNIT 2/EXPERIMENT 7/DESIGN-BRIEF.md>)
-- [Experiment 8 creative dispatch laboratory](<UNIT 3/EXPERIMENT 8/DESIGN-BRIEF.md>)
-- [Experiment 9 operations concourse](<UNIT 3/EXPERIMENT 9/DESIGN-BRIEF.md>)
+- [Experiment 8 creative dispatch laboratory](<UNIT 3/EXPERIMENT 08/DESIGN-BRIEF.md>)
+- [Experiment 9 operations concourse](<UNIT 3/EXPERIMENT 09/DESIGN-BRIEF.md>)
 - [Experiment 10 social editorial](<UNIT 3/EXPERIMENT 10/DESIGN-BRIEF.md>)
 
 The chosen typefaces were checked against their [Google Fonts SIL Open Font License texts](https://github.com/google/fonts/tree/main/ofl). They are loaded with system fallbacks and `display=swap`.
