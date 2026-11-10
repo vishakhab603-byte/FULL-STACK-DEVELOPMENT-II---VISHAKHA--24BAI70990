@@ -1230,6 +1230,36 @@
   }
 }
 
+::selection {
+  background: rgba(110, 198, 145, 0.28);
+  color: #effff5;
+}
+
+button,
+input,
+textarea,
+select,
+a {
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.auth-layout,
+.workspace,
+.session-card,
+.task-card,
+.access-map {
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+}
+
+.btn-primary:hover:not(:disabled),
+.btn-signout:hover:not(:disabled),
+.btn-refresh:hover:not(:disabled),
+.task-state:hover:not(:disabled),
+.task-delete:hover:not(:disabled),
+.task-pagination button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

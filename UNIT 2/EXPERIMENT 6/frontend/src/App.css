@@ -1208,3 +1208,32 @@ tbody tr:hover {
     font-size: 8px;
   }
 }
+
+::selection {
+  background: rgba(174, 155, 255, 0.28);
+  color: #f7f4ff;
+}
+
+button,
+input,
+select,
+textarea,
+a {
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.query-panel,
+.response-summary,
+.status-distribution,
+.table-frame,
+.create-form,
+.error-state {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.create-button:hover:not(:disabled),
+.retry-button:hover:not(:disabled),
+.distribution-filter:hover,
+.row-action:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
