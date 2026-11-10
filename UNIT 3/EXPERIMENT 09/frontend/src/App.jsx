@@ -1,33 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import './App.css';
-
-const API_BASE = 'http://localhost:8080';
-const STAGES = [
-  { title: 'Source change', detail: 'Commit / push' },
-  { title: 'CI trigger', detail: 'Workflow entry' },
-  { title: 'Compile', detail: 'Build artifacts' },
-  { title: 'Verify', detail: 'Unit + API contracts' },
-  { title: 'Package', detail: 'Container image' },
-  { title: 'Route', detail: 'Canary traffic' }
-];
-
-async function requestJson(path, options) {
-  const response = await fetch(`${API_BASE}${path}`, options);
-  const body = await response.text();
-  let data = null;
-  if (body) {
-    try {
-      data = JSON.parse(body);
-    } catch {
-      data = body;
-    }
-  }
-  if (!response.ok) {
-    const detail = typeof data === 'string' ? data : data?.message;
-    throw new Error(detail || `Request failed (${response.status} ${response.statusText})`);
-  }
-  return data;
-}
+import TopologyFigure from './components/TopologyFigure';
+import { STAGES, requestJson } from './features/release/canarySlice';
 
 function App() {
   const [backendOnline, setBackendOnline] = useState(false);
@@ -328,33 +302,7 @@ function App() {
           <div><p className="section-index">REFERENCE / 00</p><h2 id="reference-title">Release topology</h2></div>
           <span className="reference-tag"><span />STATIC REFERENCE FLOW</span>
         </div>
-        <figure className="topology-figure">
-          <svg className="topology-svg" viewBox="0 0 1100 210" role="img" aria-labelledby="topology-title topology-description">
-            <title id="topology-title">Illustrative six-station release workflow</title>
-            <desc id="topology-description">A reference sequence connecting source change, CI trigger, compile, verify, package, and canary routing. These stations are not live workflow status.</desc>
-            <path className="rail rail-main" d="M92 79H275H458H641H824H1007" />
-            <path className="rail rail-secondary" d="M92 91H275H458H641H824H1007" />
-            <path className="branch-line" d="M641 85V151H824V85" />
-            <path className="branch-line branch-amber" d="M824 85V151H1007V85" />
-            {STAGES.map((stage, index) => {
-              const x = 92 + index * 183;
-              return (
-                <g className={`station ${index === 5 ? 'station-canary' : ''}`} key={stage.title}>
-                  <rect x={x - 10} y="75" width="20" height="20" />
-                  <text className="station-number" x={x} y="45" textAnchor="middle">{String(index + 1).padStart(2, '0')}</text>
-                  <text className="station-name" x={x} y="123" textAnchor="middle">{stage.title}</text>
-                  <text className="station-detail" x={x} y="144" textAnchor="middle">{stage.detail}</text>
-                </g>
-              );
-            })}
-            <text className="route-label" x="694" y="174">VERIFY / PACKAGE BRANCH</text>
-            {canaryWeight !== null && <text className="canary-config-label" x="1007" y="29" textAnchor="middle">CONFIG {canaryWeight}%</text>}
-          </svg>
-          <ol className="mobile-stations" aria-label="Reference stages in sequence">
-            {STAGES.map((stage, index) => <li key={stage.title}><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{stage.title}</strong><small>{stage.detail}</small></div></li>)}
-          </ol>
-          <figcaption><span>REFERENCE ONLY</span> An illustrative sequence, not a live workflow run. No deployment-job status endpoint is connected.</figcaption>
-        </figure>
+        <TopologyFigure canaryWeight={canaryWeight} />
       </section>
 
       <div className="workspace-heading">

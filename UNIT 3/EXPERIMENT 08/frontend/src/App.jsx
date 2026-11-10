@@ -1,94 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
+import EventPath from './components/EventPath';
+import StatusMark from './components/StatusMark';
+import { API_URL, formatAxisTime, formatTime, getPostKey, normalizeStatus } from './features/dispatch/dispatchSlice';
 
-const API_URL = 'http://localhost:8080/api/posts';
-
-function formatTime(value) {
-  if (!value) return 'Time not provided';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime())
-    ? value
-    : new Intl.DateTimeFormat(undefined, {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(date);
-}
-
-function getPostKey(post, index) {
-  return post.id == null ? `missing-${index}` : String(post.id);
-}
-
-function formatAxisTime(timestamp) {
-  return new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(new Date(timestamp));
-}
-
-function EventPath() {
-  return (
-    <figure className="event-path">
-      <svg viewBox="0 0 520 132" role="img" aria-labelledby="event-path-title event-path-description">
-        <title id="event-path-title">A scheduled event path</title>
-        <desc id="event-path-description">
-          An illustrative route from the schedule point, through an event envelope, to a consumer endpoint.
-        </desc>
-        <path className="path-underlay" d="M37 67h446" />
-        <path className="path-line" pathLength="1" d="M37 67h446" />
-        <circle className="path-node path-node-start" cx="48" cy="67" r="13" />
-        <circle className="path-orbit" cx="48" cy="67" r="23" />
-        <rect className="path-node path-node-event" x="244" y="51" width="32" height="32" rx="3" />
-        <path className="envelope-mark" d="m250 59 10 8 10-8m-20 1v15h20V60" />
-        <path className="path-node path-node-end" d="M472 54h19v26h-19z" />
-        <path className="endpoint-mark" d="M477 62h9m-9 5h9m-9 5h5" />
-        <path className="path-arrow" d="m465 63 7 4-7 4" />
-        <text className="path-label" x="48" y="116" textAnchor="middle">SCHEDULE</text>
-        <text className="path-label" x="260" y="116" textAnchor="middle">EVENT</text>
-        <text className="path-label" x="481" y="116" textAnchor="middle">CONSUMER</text>
-      </svg>
-      <figcaption><span className="caption-rule" />Event route / illustrative</figcaption>
-    </figure>
-  );
-}
-
-function StatusMark({ status }) {
-  const normalized = String(status || '').toUpperCase();
-
-  if (normalized === 'PUBLISHED') {
-    return (
-      <svg className="status-mark is-published" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="9" />
-        <path d="m8 12 2.5 2.5L16 9" />
-      </svg>
-    );
-  }
-
-  if (normalized === 'FAILED') {
-    return (
-      <svg className="status-mark is-failed" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="m12 2 10 10-10 10L2 12z" />
-        <path d="M12 7v6m0 3v.1" />
-      </svg>
-    );
-  }
-
-  if (normalized === 'PENDING') {
-    return (
-      <svg className="status-mark is-pending" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="8" />
-        <circle className="pending-core" cx="12" cy="12" r="2" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg className="status-mark is-other" viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="4" y="4" width="16" height="16" rx="2" />
-    </svg>
-  );
-}
+const API_URL_LOCAL = API_URL;
 
 function QueueTimeline({ posts, selectedPostKey, onSelectPost, loading, error }) {
   const plottedPosts = posts
@@ -289,7 +205,7 @@ function App() {
     if (showRefreshState) setRefreshing(true);
 
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL_LOCAL);
       if (!response.ok) throw new Error(`Publishing API returned ${response.status}.`);
       const data = await response.json();
       if (!Array.isArray(data)) throw new Error('Publishing API returned an invalid post list.');
@@ -326,7 +242,7 @@ function App() {
     setSubmissionError('');
     setScheduleMessage('');
     try {
-      const response = await fetch(`${API_URL}/schedule`, {
+      const response = await fetch(`${API_URL_LOCAL}/schedule`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
