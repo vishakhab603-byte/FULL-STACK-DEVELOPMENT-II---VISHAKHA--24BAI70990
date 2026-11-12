@@ -1,6 +1,0 @@
-backend/target/
-backend/data/
-frontend/node_modules/
-frontend/dist/
-backend/data/*
-!backend/data/.gitkeep
